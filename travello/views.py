@@ -1,11 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Destination
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    
-    dest1 = Destination('Mumbai', 'The City That I Never Visited', 900, 'destination_1.jpg', False)
-    dest2 = Destination('Hyderabad', 'The City I Was Borught Up', 800, 'destination_2.jpg', True)
-    dest3 = Destination('Chennai', 'The City That I Once Visited', 700, 'destination_3.jpg', False)
-    dests = [dest1, dest2, dest3]
+    dests = Destination.objects.all()
     return render(request, "index.html", {'dests': dests})
+
+def destination_detail(request, name):
+    if request.user.is_authenticated:
+        dest = get_object_or_404(Destination, name = name)
+        return render(request, 'destination.html', {'dest': dest})
+    else:
+        messages.error(request, '⚠️ Please login to continue')
+        return redirect("login")

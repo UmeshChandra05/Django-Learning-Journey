@@ -22,6 +22,46 @@
 <div class="super_container">
 
 	<!-- Header -->
+	{% if messages %}
+	  		<div id="toast-container">
+	    {% for message in messages %}
+	      <div class="toast {{ message.tags }}">
+	        {{ message }}
+	      </div>
+	    {% endfor %}
+	  </div>
+
+	  <script>
+	    // Auto-hide after 3 seconds
+	    setTimeout(() => {
+	      document.querySelectorAll('.toast').forEach(t => t.remove());
+	    }, 3000);
+	  </script>
+
+	  <style>
+	    #toast-container {
+	      position: fixed;
+	      top: 20px;
+	      right: 20px;
+	      z-index: 1000;
+	    }
+	    .toast {
+	      margin-bottom: 10px;
+	      padding: 12px 20px;
+	      border-radius: 6px;
+	      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	      font-size: 14px;
+	      animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+	    }
+	    .toast.success { background: #4caf50; color: #fff; }
+	    .toast.error { background: #f44336; color: #fff; }
+	    .toast.info { background: #2196f3; color: #fff; }
+	    .toast.warning { background: #ff9800; color: #fff; }
+
+	    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+	    @keyframes fadeOut { from {opacity: 1;} to {opacity: 0;} }
+	  </style>
+	{% endif %}
 
 	<header class="header">
 		<div class="container">
@@ -33,10 +73,16 @@
 							<nav class="main_nav">
 								<ul class="d-flex flex-row align-items-start justify-content-start">
 									<li class="active"><a href="index.html">Home</a></li>
-									<li><a href="about.html">About us</a></li>
-									<li><a href="#">Services</a></li>
-									<li><a href="news.html">News</a></li>
-									<li><a href="contact.html">Contact</a></li>
+									<li><a href="#">About</a></li>
+									<li><a href="#">Contact</a></li>
+									{% if user.is_authenticated %}
+										<li>Hello, {{user.first_name}}</a></li>
+										<li><a href="accounts/logout">Logout</a></li>
+									{% else %}
+										<li><a href="accounts/register">Register</a></li>
+										<li><a href="accounts/login">Login</a></li>
+									{% endif %}
+									
 								</ul>
 							</nav>
 							<div class="header_phone ml-auto">Call us: 00-56 445 678 33</div>
@@ -249,12 +295,12 @@
 			<div class="row destinations_row">
 				<div class="col">
 					<div class="destinations_container item_grid">
-
 						{% for dest in dests%}
+						<a href ="{% url 'destination_detail' dest.name %}">
 						<!-- Destination -->
 						<div class="destination item">
 							<div class="destination_image">
-								<img src="{{baseURL}}/{{dest.img}}" alt="{{dest.name}} Image">
+								<img src="{{dest.img.url}}" alt="{{dest.name}} Image">
 								{% if dest.offer %}
 									<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
 								{% endif %}
@@ -266,7 +312,7 @@
 							</div>
 						</div>
 						{% endfor %}
-
+					</a>
 					</div>
 				</div>
 			</div>
