@@ -1,6 +1,6 @@
 # 🚀 Django Learning Journey
 
-This repository documents my **daily progress** as I learn Django through the [Django Tutorials by Telusko on YouTube](https://www.youtube.com/playlist?list=PLsyeobzWxl7rrvgG7MLNIMSTzVCDZZcT4).  
+This repository documents my **daily progress** as I learn Django through the [Django Tutorials by Telusko on YouTube](https://www.youtube.com/playlist?list=PLsyeobzWxl7r2ukVgTqIQcl-1T0C2mzau).  
 It serves as a structured record of concepts I’ve covered, projects I’ve built, and skills I’ve developed.  
 
 ---
